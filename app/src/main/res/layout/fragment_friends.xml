@@ -11,7 +11,7 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:background="#19BFAF"
+        android:background="@color/button_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/white"
+        android:entries="@array/courses"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,6 +45,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="12dp"
         android:text="0 Friend(s)"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/divider"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -51,11 +54,14 @@
         android:id="@+id/cbxReverse"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginStart="42dp"
+        android:buttonTint="#FFFEFE"
         android:text="Reverse"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/divider"
+        app:layout_constraintStart_toEndOf="@+id/spnGender"
         app:layout_constraintTop_toBottomOf="@+id/searchView"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="181dp" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Spinner
         android:id="@+id/spnGender"
@@ -63,6 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="12dp"
+        android:entries="@array/gender"
         app:layout_constraintBottom_toBottomOf="@+id/divider"
         app:layout_constraintStart_toStartOf="parent" />
 
