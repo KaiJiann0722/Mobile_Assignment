@@ -21,6 +21,7 @@ data class User(
     @DocumentId
     var id: String = "",
     var name: String = "",
+    var password: String = "",
     var age: Int = 0,
     var gender: String = "",
     var courseID: String = "",
