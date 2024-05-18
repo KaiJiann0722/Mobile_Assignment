@@ -54,7 +54,7 @@ class UserVM : ViewModel() {
     }
 
 
-    private fun emailExists(email: String) = userLD.value?.any { it.id == email } ?: false
+    private fun emailExists(email: String) = userLD.value?.any { it.email == email } ?: false
 
     fun validate(user: User, insert: Boolean = true): String {
         val regexEmail = Regex("""^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$""")
@@ -80,6 +80,9 @@ class UserVM : ViewModel() {
 
         e += if (user.photo.toBytes().isEmpty()) "- Photo required.\n"
         else ""
+
+
+        // add more validation here
 
         return e
     }

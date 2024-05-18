@@ -7,7 +7,7 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.firestore
 
-data class Course(
+data class Field(
     @DocumentId
     var id: String = "",
     var name: String = ""
@@ -21,19 +21,21 @@ data class User(
     @DocumentId
     var id: String = "",
     var name: String = "",
+    var bio: String = "",
+    var email: String = "",
     var password: String = "",
-    var age: Int = 0,
     var gender: String = "",
-    var courseID: String = "",
+    var fieldID: String = "",
+    var status: String = "",
     var photo: Blob = Blob.fromBytes(ByteArray(0))
 ) {
     @get:Exclude
-    var category: Course  =  Course()
+    var field: Field  =  Field()
 }
 
 //======================================================================================================
 
-val COURSE = Firebase.firestore.collection("course")
+val COURSE = Firebase.firestore.collection("field")
 val USERS = Firebase.firestore.collection("users")
 
 //======================================================================================================
