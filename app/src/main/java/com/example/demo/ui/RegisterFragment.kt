@@ -54,12 +54,21 @@ class RegisterFragment : Fragment() {
     }
 
     private fun register() {
+        // Fetch the last user ID from Firestore
+        val lastUser = vm.getAll().maxByOrNull { it.id.removePrefix("U").toInt() }
+        val lastIdNum = lastUser?.id?.removePrefix("U")?.toIntOrNull() ?: 0
+
+        // Generate the next user ID
+        val nextId = "U${lastIdNum + 1}"
+
         // Insert user
         val user = User(
-            id    = binding.edtEmail.text.toString().trim(),
+            id    = nextId,
+            email = binding.edtEmail.text.toString().trim(),
             password = binding.edtPassword.text.toString().trim(),
             name     = binding.edtName.text.toString().trim(),
             photo    = binding.imgPhoto.cropToBlob(300, 300)
+            // Add more fields here
         )
 
         val e = vm.validate(user)

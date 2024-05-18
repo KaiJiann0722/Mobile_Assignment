@@ -31,28 +31,21 @@ class AuthVM (val app: Application) : AndroidViewModel(app) {
     fun getUser() = userLD.value
 
     // TODO(1): Login
-    suspend fun login(email: String, password: String, remember: Boolean = false) : Boolean {
-        // TODO(1A): Get the user record with matching email + password
-        //           Return false is no matching found
+    suspend fun login(email: String, password:String, remember: Boolean = false) : Boolean{
         if (email == "" || password == "") return false
 
         val user = USERS
-            .whereEqualTo(FieldPath.documentId(), email)
+            .whereEqualTo("email", email)
             .whereEqualTo("password", password)
             .get()
             .await()
             .toObjects<User>()
             .firstOrNull() ?: return false
 
-        // TODO(1B): Setup snapshot listener
-        //           Update live data -> user
         listener?.remove()
-        listener = USERS.document(user.id).addSnapshotListener { snap, _ ->
-            userLD.value = snap?.toObject()
-        }
+        listener = USERS.document(user.id).addSnapshotListener { snap, _ ->  userLD.value = snap?.toObject() }
 
-        // TODO(6A): Handle remember-me -> add shared preferences
-        if (remember) {
+        if (remember){
             getPreferences()
                 .edit()
                 .putString("email", email)

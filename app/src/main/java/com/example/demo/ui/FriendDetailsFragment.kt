@@ -37,7 +37,7 @@ class FriendDetailsFragment : Fragment() {
 
         binding.imgProfile.setImageBlob(user.photo)
         binding.txtName.text = user.name
-        binding.txtCourse.text = user.courseID
+        binding.txtCourse.text = user.fieldID
 
 
         return binding.root
