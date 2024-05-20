@@ -1,6 +1,5 @@
 package com.example.demo.util
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,9 +9,9 @@ import com.example.demo.data.User
 import com.example.demo.databinding.ItemFriendsBinding
 
 
-class UserAdapter(
+class FriendListAdapter(
     val fn: (ViewHolder, User) -> Unit = { _, _ -> }
-) : ListAdapter<User, UserAdapter.ViewHolder>(DiffCallback) {
+) : ListAdapter<User, FriendListAdapter.ViewHolder>(DiffCallback) {
 
     companion object DiffCallback : DiffUtil.ItemCallback<User>() {
         override fun areItemsTheSame(a: User, b: User) = a.id == b.id
@@ -26,9 +25,10 @@ class UserAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = getItem(position)
-        //Log.d("UserAdapter", "Binding user at position $position: ${user.id}, ${user.name}, ${user.age}, ${user.gender}, ${user.courseID}")
-        holder.binding.imgProfile.setImageBlob(user.photo)
+        val id = user.id
+        //holder.binding.imgProfile.setImageBlob(user.photo)
         holder.binding.txtName.text = user.name
+        holder.binding.txtStatus.text = user.status
         fn(holder, user)
     }
 }
