@@ -6,14 +6,14 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.toObjects
 
 
-class UserVM : ViewModel() {
+class NewFriendVM:ViewModel() {
     private val userLD = MutableLiveData<List<User>>(emptyList())
     private var listener: ListenerRegistration? = null
 
     init {
         listener = USERS.addSnapshotListener { snap, _ ->
             userLD.value = snap?.toObjects()
-            updateResult()
+            updateNewFriendResult()
         }
     }
 
@@ -34,23 +34,53 @@ class UserVM : ViewModel() {
     }
 
 
-    private val resultLD = MutableLiveData<List<User>>()
+    private val newFriendResultLD = MutableLiveData<List<User>>()
+    private val newFriendsLD = MutableLiveData<List<User>>()
     private var name = ""
-    fun getResultLD() = resultLD
-    fun search(name: String) {
+    fun getNewFriendResultLD() = newFriendResultLD
+
+    fun searchNewFriend(name: String) {
         this.name = name
-        updateResult()
+        updateNewFriendResult()
     }
 
-    fun updateResult() {
-        var list = getAll()
+    fun updateNewFriendResult() {
+        var list = newFriendsLD.value ?: emptyList()
 
-        // TODO(12A): Search by name, filter by categoryId
         list = list.filter {
             it.name.contains(name, true)
         }
 
-        resultLD.value = list
+        newFriendResultLD.value = list
+    }
+
+    fun acceptFriendRequest(userId: String, friendId: String) {
+        val user = get(userId) ?: return
+        val updatedFriendsList = user.friends.toMutableList()
+        updatedFriendsList.add(friendId)
+        user.friends = updatedFriendsList
+
+        // Remove friendId from user.friendRequestFrom
+        val updatedFriendRequestsFrom = user.friendRequestFrom.toMutableList()
+        updatedFriendRequestsFrom.remove(friendId)
+        user.friendRequestFrom = updatedFriendRequestsFrom
+
+        set(user)
+        fetchNewFriends(userId)
+    }
+
+    fun fetchNewFriends(userId: String) {
+        val user = get(userId) ?: return
+        val friends: List<String> = user.friends
+        val nonFriendsList = mutableListOf<User>()
+        for (potentialFriend in getAll()) {
+            if (potentialFriend.id !in friends && potentialFriend.id != userId) {
+                nonFriendsList.add(potentialFriend)
+            }
+        }
+
+        newFriendsLD.value = nonFriendsList
+        newFriendResultLD.value = nonFriendsList
     }
 
 
@@ -61,10 +91,10 @@ class UserVM : ViewModel() {
         var e = ""
 
         if (insert) {
-            e += if (user.id == "") "- Email required.\n"
-            else if (!user.id.matches(regexEmail)) "- Email format invalid.\n"
-            else if (user.id.length > 100) "- Email too long (max 100 chars).\n"
-            else if (emailExists(user.id)) "- Email duplicated.\n"
+            e += if (user.email == "") "- Email required.\n"
+            else if (!user.email.matches(regexEmail)) "- Email format invalid.\n"
+            else if (user.email.length > 100) "- Email too long (max 100 chars).\n"
+            else if (emailExists(user.email)) "- Email duplicated.\n"
             else ""
         }
 

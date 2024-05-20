@@ -10,83 +10,96 @@
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:background="@color/button_color"
+        android:layout_height="70dp"
+        android:background="@color/primary_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
     <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="250dp"
+        android:id="@+id/sv"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/divider"
+        app:layout_constraintEnd_toStartOf="@+id/btnNew"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/divider" />
 
-    <Spinner
-        android:id="@+id/spnCourse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/white"
-        android:entries="@array/courses"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="12dp"
         android:text="0 Friend(s)"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/divider"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <CheckBox
-        android:id="@+id/cbxReverse"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="42dp"
-        android:buttonTint="#FFFEFE"
-        android:text="Reverse"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/divider"
-        app:layout_constraintStart_toEndOf="@+id/spnGender"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Spinner
-        android:id="@+id/spnGender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="12dp"
-        android:entries="@array/gender"
-        app:layout_constraintBottom_toBottomOf="@+id/divider"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        android:textColor="@color/unactive_text_color"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/divider2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFriends"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:padding="4dp"
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintTop_toBottomOf="@+id/divider2"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/item_friends" />
+
+    <Button
+        android:id="@+id/btnAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:backgroundTint="@color/selected_button_color"
+        android:text="ALL"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/divider2"
+        app:layout_constraintStart_toStartOf="@+id/divider2"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <Button
+        android:id="@+id/btnOnline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/unactive_button_color"
+        android:text="Online"
+        android:textColor="@color/unactive_text_color"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAll"
+        app:layout_constraintStart_toEndOf="@+id/btnAll"
+        app:layout_constraintTop_toTopOf="@+id/btnAll" />
+
+    <Button
+        android:id="@+id/btnNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/unactive_button_color"
+        android:text="+ New"
+        android:textColor="@color/primary_color"
+        app:layout_constraintBottom_toBottomOf="@+id/divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

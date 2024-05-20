@@ -1,35 +1,39 @@
 package com.example.demo.util
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
+import com.example.demo.R
 import com.example.demo.data.User
-import com.example.demo.databinding.ItemFriendsBinding
+import com.example.demo.databinding.ItemRequestBinding
+import com.example.demo.databinding.ItemRequestReceivedBinding
 
 
-class UserAdapter(
+
+class RequestAdapter(
     val fn: (ViewHolder, User) -> Unit = { _, _ -> }
-) : ListAdapter<User, UserAdapter.ViewHolder>(DiffCallback) {
+) : ListAdapter<User, RequestAdapter.ViewHolder>(DiffCallback) {
 
     companion object DiffCallback : DiffUtil.ItemCallback<User>() {
         override fun areItemsTheSame(a: User, b: User) = a.id == b.id
         override fun areContentsTheSame(a: User, b: User) = a == b
     }
 
-    class ViewHolder(val binding: ItemFriendsBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ItemRequestReceivedBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(ItemFriendsBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        ViewHolder(ItemRequestReceivedBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = getItem(position)
         val id = user.id
-        //holder.binding.imgProfile.setImageBlob(user.photo)
+
         holder.binding.txtName.text = user.name
-        holder.binding.txtCourse.text = user.fieldID
+
         fn(holder, user)
     }
+
 }

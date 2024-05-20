@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.demo.R
-import com.example.demo.data.UserVM
+import com.example.demo.data.FriendsVM
 import com.example.demo.databinding.FragmentFriendDetailsBinding
-import com.example.demo.util.setImageBlob
-import com.google.firebase.firestore.auth.User
 
 
 class FriendDetailsFragment : Fragment() {
@@ -20,7 +18,7 @@ class FriendDetailsFragment : Fragment() {
     private val nav by lazy { findNavController() }
     private val userId by lazy { arguments?.getString("userId") ?: "" }
 
-    private val userVM: UserVM by activityViewModels()
+    private val friendsVM: FriendsVM by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,15 +27,15 @@ class FriendDetailsFragment : Fragment() {
         binding = FragmentFriendDetailsBinding.inflate(inflater, container, false)
 
         binding.btnBack.setOnClickListener { nav.navigateUp() }
-        val user = userVM.get(userId)
+        val user = friendsVM.get(userId)
         if (user == null) {
             nav.navigateUp()
             return null
         }
-
-        binding.imgProfile.setImageBlob(user.photo)
+        binding.imgProfile.setImageResource(R.drawable.horse)
+        //binding.imgProfile.setImageBlob(user.photo)
         binding.txtName.text = user.name
-        binding.txtCourse.text = user.fieldID
+        binding.txtStatus.text = user.status
 
 
         return binding.root
