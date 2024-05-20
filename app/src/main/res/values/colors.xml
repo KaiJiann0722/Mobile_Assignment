@@ -6,4 +6,5 @@
     <color name="selected_button_color">#02dbbe</color>
     <color name="unactive_text_color">#808080</color>
     <color name="unactive_button_color">#ededed</color>
+    <color name="transparent">#00000000</color>
 </resources>
