@@ -108,7 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:adjustViewBounds="true"
                 android:maxHeight="200dp"
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:background="#2196F3">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLike"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
@@ -143,6 +143,7 @@
                     android:padding="10dp"
                     android:text="Like     "
                     app:icon="@drawable/ic_love_black"
+                    app:iconSize="28dp"
                     app:iconPadding="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/btnComment"
@@ -150,7 +151,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnComment"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
@@ -158,6 +159,7 @@
                     android:drawableStart="@drawable/baseline_comment_24"
                     android:padding="10dp"
                     android:text="Comment"
+                    app:iconSize="28dp"
                     app:icon="@drawable/baseline_comment_24"
                     app:iconPadding="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
