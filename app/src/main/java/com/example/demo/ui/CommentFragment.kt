@@ -56,7 +56,7 @@ class CommentFragment : Fragment() {
                 .filter { it.postId == postId }
                 .sortedByDescending { it.commentDate }
             commentAdapter.submitList(filteredComments)
-
+            binding.txtComments.text = "Comments (" + filteredComments.size + ")"
         }
 
         // Set the click listener for the send button

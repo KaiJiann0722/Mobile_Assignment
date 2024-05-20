@@ -34,11 +34,13 @@
         android:id="@+id/forumRecyclerView"
         android:layout_width="395dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sv"
+        app:layout_constraintTop_toBottomOf="@+id/view"
         tools:listitem="@layout/item_forum" />
 
     <Button
