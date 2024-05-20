@@ -10,6 +10,7 @@
         android:id="@+id/dvdFriendDetails"
         android:layout_width="0dp"
         android:layout_height="172dp"
+        android:background="@color/primary_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +33,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="44dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="John"
+        android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/imgProfile"
         app:layout_constraintTop_toTopOf="parent" />
