@@ -27,8 +27,7 @@ class UserAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = getItem(position)
         Log.d("UserAdapter", "Binding user at position $position: ${user.id}, ${user.name}, ${user.age}, ${user.gender}, ${user.courseID}")
-        val id = user.id
-        //holder.binding.imgProfile.setImageBlob(user.photo)
+        holder.binding.imgProfile.setImageBlob(user.photo)
         holder.binding.txtName.text = user.name
         holder.binding.txtCourse.text = user.courseID
         fn(holder, user)
