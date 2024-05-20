@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav"
-    app:startDestination="@id/forumFragment">
+    app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.demo.ui.HomeFragment"
@@ -63,4 +63,14 @@
         android:name="com.example.demo.ui.CommentFragment"
         android:label="fragment_comment"
         tools:layout="@layout/fragment_comment" />
+    <fragment
+        android:id="@+id/newFriendFragment"
+        android:name="com.example.demo.ui.NewFriendFragment"
+        android:label="New Friend"
+        tools:layout="@layout/fragment_new_friend" />
+    <fragment
+        android:id="@+id/friendRequestFragment"
+        android:name="com.example.demo.ui.FriendRequestFragment"
+        android:label="Friend Request"
+        tools:layout="@layout/fragment_friend_request" />
 </navigation>
