@@ -16,6 +16,7 @@ import com.example.demo.data.FriendsVM
 import com.example.demo.data.NewFriendVM
 import com.example.demo.databinding.FragmentFriendRequestBinding
 import com.example.demo.util.RequestAdapter
+import com.example.demo.util.toast
 
 
 class FriendRequestFragment : Fragment() {
@@ -33,6 +34,7 @@ class FriendRequestFragment : Fragment() {
         val adapter = RequestAdapter() { h, f ->
             h.binding.root.setOnClickListener { detail(f.id) }
             h.binding.btnAccept.setOnClickListener{acceptFriendRequest(f.id)}
+            h.binding.imgDelete.setOnClickListener{deleteFriendRequest(f.id)}
         }
         binding.rvRequest.adapter = adapter
         binding.rvRequest.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -96,14 +98,23 @@ class FriendRequestFragment : Fragment() {
     }
 
     private fun detail(userId: String) {
-        nav.navigate(R.id.friendDetailsFragment, bundleOf("userId" to userId))
+        nav.navigate(R.id.requestFriendDetailsFragment, bundleOf("userId" to userId))
     }
 
     private fun acceptFriendRequest(friendId: String) {
         val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
         val currentUserId = sharedPref.getString("userId", null)
         currentUserId?.let {
-            friendsVM.acceptFriendRequest(it, friendId)
+            if(friendsVM.acceptFriendRequest(it, friendId))
+                toast("Friend request accepted")
+        }
+    }
+    private fun deleteFriendRequest(friendId: String) {
+        val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
+        val currentUserId = sharedPref.getString("userId", null)
+        currentUserId?.let {
+            if(friendsVM.deleteFriendRequest(it, friendId))
+                toast("Friend request rejected")
         }
     }
 

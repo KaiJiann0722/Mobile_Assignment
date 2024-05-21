@@ -91,9 +91,9 @@ class FriendsVM : ViewModel() {
         newFriendResultLD.value = list
     }
 
-    fun acceptFriendRequest(userId: String, friendId: String) {
-        val user = get(userId) ?: return
-        val target = get(friendId) ?: return
+    fun acceptFriendRequest(userId: String, friendId: String):Boolean {
+        val user = get(userId) ?: return false
+        val target = get(friendId) ?: return false
 
         val updatedFriendsList = user.friends.toMutableList()
         updatedFriendsList.add(friendId)
@@ -117,6 +117,24 @@ class FriendsVM : ViewModel() {
         fetchNewFriends(userId)
         fetchFriends(userId)
         fetchRequests(userId)
+
+        return true
+    }
+
+    fun deleteFriendRequest(userId: String, friendId: String):Boolean {
+        val user = get(userId) ?: return false
+
+        // Remove friendId from user.friendRequestFrom
+        val updatedFriendRequestsFrom = user.friendRequestFrom.toMutableList()
+        updatedFriendRequestsFrom.remove(friendId)
+        user.friendRequestFrom = updatedFriendRequestsFrom
+
+        set(user)
+        fetchNewFriends(userId)
+        fetchFriends(userId)
+        fetchRequests(userId)
+
+        return true
     }
 
     fun sendRequest(userId: String, friendId: String):Boolean {
@@ -224,5 +242,52 @@ class FriendsVM : ViewModel() {
         // add more validation here
 
         return e
+    }
+
+    fun getMutualFriends(currentUserID:String, friendID:String):String{
+        var list = ""
+        val currentUser = get(currentUserID) ?: return list
+        val friend = get(friendID) ?: return list
+
+        for (f in currentUser.friends){
+            if (friend.friends.contains(f)){
+                val mutual = get(f) ?: return list
+                list += mutual.name + ", "
+            }
+        }
+
+
+        return list
+    }
+
+    fun deleteFriend(currentUserID:String, friendID:String){
+        val currentUser = get(currentUserID) ?: return
+        val friend = get(friendID) ?: return
+
+        val updatedFriendsList = currentUser.friends.toMutableList()
+        updatedFriendsList.remove(friendID)
+        currentUser.friends = updatedFriendsList
+
+        val updatedFriendList = friend.friends.toMutableList()
+        updatedFriendList.remove(currentUserID)
+        friend.friends = updatedFriendList
+
+        set(currentUser)
+        set(friend)
+        fetchNewFriends(currentUserID)
+        fetchFriends(currentUserID)
+        fetchRequests(currentUserID)
+    }
+
+    fun friendRecommender(currentUserID:String):List<User>{
+        val currentUser = get(currentUserID) ?: return emptyList()
+        val friends = currentUser.friends
+        val friendList = mutableListOf<User>()
+        for (f in getAll()){
+            if (f.id !in friends && f.id != currentUserID){
+                friendList.add(f)
+            }
+        }
+        return friendList
     }
 }

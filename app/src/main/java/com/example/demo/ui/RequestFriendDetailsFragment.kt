@@ -11,14 +11,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.demo.R
 import com.example.demo.data.FieldVM
 import com.example.demo.data.FriendsVM
-import com.example.demo.databinding.FragmentFriendDetailsBinding
+import com.example.demo.databinding.FragmentRequestFriendDetailsBinding
+import com.example.demo.util.toast
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-
-class FriendDetailsFragment : Fragment() {
-
-    private lateinit var binding: FragmentFriendDetailsBinding
+class RequestFriendDetailsFragment : Fragment() {
+    private lateinit var binding: FragmentRequestFriendDetailsBinding
     private val nav by lazy { findNavController() }
     private val userId by lazy { arguments?.getString("userId") ?: "" }
     private val fieldVM: FieldVM by activityViewModels()
@@ -29,7 +28,7 @@ class FriendDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFriendDetailsBinding.inflate(inflater, container, false)
+        binding = FragmentRequestFriendDetailsBinding.inflate(inflater, container, false)
 
         val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
         var currentUserId = sharedPref.getString("userId", null)
@@ -75,12 +74,33 @@ class FriendDetailsFragment : Fragment() {
 
         binding.txtMutualFriends.text = friendsVM.getMutualFriends(currentUserId, user.id)
 
-        binding.btnDeleteFriend.setOnClickListener{
-            friendsVM.deleteFriend(currentUserId, user.id)
+
+        binding.btnAcceptRequest.setOnClickListener{
+            acceptFriendRequest(user.id)
+            nav.navigateUp()
+        }
+        binding.btnDeleteRequest.setOnClickListener{
+            deleteFriendRequest(user.id)
             nav.navigateUp()
         }
 
         return binding.root
     }
 
+    private fun acceptFriendRequest(friendId: String) {
+        val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
+        val currentUserId = sharedPref.getString("userId", null)
+        currentUserId?.let {
+            if(friendsVM.acceptFriendRequest(it, friendId))
+                toast("Friend request accepted")
+        }
+    }
+    private fun deleteFriendRequest(friendId: String) {
+        val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
+        val currentUserId = sharedPref.getString("userId", null)
+        currentUserId?.let {
+            if(friendsVM.deleteFriendRequest(it, friendId))
+                toast("Friend request rejected")
+        }
+    }
 }
