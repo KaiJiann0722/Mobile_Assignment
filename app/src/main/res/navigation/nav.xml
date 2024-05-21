@@ -77,7 +77,7 @@
         android:id="@+id/requestFriendDetailsFragment"
         android:name="com.example.demo.ui.RequestFriendDetailsFragment"
         android:label="Friend Request" />
-  
+
     <fragment
         android:id="@+id/postEditFragment"
         android:name="com.example.demo.ui.PostEditFragment"
@@ -88,4 +88,10 @@
         android:name="com.example.demo.ui.AddFriendQRFragment"
         android:label="QR"
         tools:layout="@layout/fragment_add_friend_q_r" />
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.demo.ui.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/edit_profile"/>
 </navigation>

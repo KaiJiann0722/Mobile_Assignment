@@ -2,16 +2,15 @@ package com.example.demo.data
 
 import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.firestore.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
-
 
 class AuthVM (val app: Application) : AndroidViewModel(app) {
 
@@ -46,12 +45,8 @@ class AuthVM (val app: Application) : AndroidViewModel(app) {
         listener?.remove()
         listener = USERS.document(user.id).addSnapshotListener { snap, _ ->  userLD.value = snap?.toObject() }
 
-        getPreferences()
-            .edit()
-            .putString("userId", user.id)
-            .apply()
-
-        if (remember){
+        // TODO(6A): Handle remember-me -> add shared preferences
+        if (remember) {
             getPreferences()
                 .edit()
                 .putString("email", email)
@@ -87,6 +82,7 @@ class AuthVM (val app: Application) : AndroidViewModel(app) {
     suspend fun loginFromPreferences() {
         val email = getPreferences().getString("email", null)
         val password = getPreferences().getString("password", null)
+
 
         if (email != null && password != null) {
             login(email, password)

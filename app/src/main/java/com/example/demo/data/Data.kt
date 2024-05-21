@@ -24,6 +24,7 @@ data class User(
     var name: String = "",
     var bio: String = "",
     var email: String = "",
+    var dateOfBirth: String = "",
     var password: String = "",
     var gender: String = "",
     var fieldID: String = "",
