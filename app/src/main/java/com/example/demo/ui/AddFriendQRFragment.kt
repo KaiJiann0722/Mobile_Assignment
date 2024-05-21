@@ -2,6 +2,7 @@ package com.example.demo.ui
 
 import android.content.ContentValues
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
@@ -19,6 +21,10 @@ import com.example.demo.databinding.FragmentAddFriendQRBinding
 import com.example.demo.databinding.FragmentNewFriendBinding
 import com.example.demo.util.toast
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.BinaryBitmap
+import com.google.zxing.MultiFormatReader
+import com.google.zxing.RGBLuminanceSource
+import com.google.zxing.common.HybridBinarizer
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
@@ -42,6 +48,10 @@ class AddFriendQRFragment : Fragment() {
         }
         binding.btnScanQR.setOnClickListener {
             scanQR()
+        }
+
+        binding.btnUpload.setOnClickListener{
+            selectQRCodeFromFile()
         }
 
         // Inflate the layout for this fragment
@@ -107,5 +117,36 @@ class AddFriendQRFragment : Fragment() {
         } catch (e: IOException) {
             toast("Failed to write bitmap: ${e.message}")
         }
+    }
+
+    private val selectQRCodeLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                try {
+                    val inputStream = requireContext().contentResolver.openInputStream(uri)
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+                    val width = bitmap.width
+                    val height = bitmap.height
+                    val pixels = IntArray(width * height)
+                    bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+                    val source = RGBLuminanceSource(width, height, pixels)
+                    val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
+                    val reader = MultiFormatReader()
+                    val result = reader.decode(binaryBitmap)
+                    val content = result.text
+                    if(content == userId){
+                        toast("You cannot add yourself as a friend.")
+                    }else{
+                        nav.navigate(R.id.addFriendDetailsFragment, bundleOf("userId" to content))
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    toast("QR code is invalid or expired.")
+                }
+            }
+        }
+
+    private fun selectQRCodeFromFile() {
+        selectQRCodeLauncher.launch("image/*")
     }
 }
