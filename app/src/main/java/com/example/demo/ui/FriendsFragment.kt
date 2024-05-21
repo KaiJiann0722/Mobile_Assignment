@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.demo.R
+import com.example.demo.data.FieldVM
 import com.example.demo.data.FriendsVM
 import com.example.demo.databinding.FragmentFriendsBinding
 import com.example.demo.util.FriendListAdapter
@@ -22,6 +23,8 @@ class FriendsFragment : Fragment() {
     private lateinit var binding: FragmentFriendsBinding
     private val nav by lazy { findNavController() }
     private val friendsVM: FriendsVM by activityViewModels()
+    private val fieldVM: FieldVM by activityViewModels()
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentFriendsBinding.inflate(inflater, container, false)
@@ -45,6 +48,7 @@ class FriendsFragment : Fragment() {
             nav.navigate(R.id.loginFragment)
         }
 
+        fieldVM.init()
 
         friendsVM.getResultLD().observe(viewLifecycleOwner) { friends ->
             binding.txtCount.text = "${friends.size} Friend(s)"

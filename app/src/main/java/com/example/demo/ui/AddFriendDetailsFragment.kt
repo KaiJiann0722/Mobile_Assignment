@@ -11,14 +11,16 @@ import androidx.navigation.fragment.findNavController
 import com.example.demo.R
 import com.example.demo.data.FieldVM
 import com.example.demo.data.FriendsVM
+import com.example.demo.databinding.FragmentAddFriendDetailsBinding
 import com.example.demo.databinding.FragmentFriendDetailsBinding
+import com.example.demo.util.toast
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class FriendDetailsFragment : Fragment() {
+class AddFriendDetailsFragment : Fragment() {
 
-    private lateinit var binding: FragmentFriendDetailsBinding
+    private lateinit var binding: FragmentAddFriendDetailsBinding
     private val nav by lazy { findNavController() }
     private val userId by lazy { arguments?.getString("userId") ?: "" }
     private val fieldVM: FieldVM by activityViewModels()
@@ -29,7 +31,7 @@ class FriendDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFriendDetailsBinding.inflate(inflater, container, false)
+        binding = FragmentAddFriendDetailsBinding.inflate(inflater, container, false)
 
         val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
         var currentUserId = sharedPref.getString("userId", null)
@@ -75,12 +77,21 @@ class FriendDetailsFragment : Fragment() {
 
         binding.txtMutualFriends.text = friendsVM.getMutualFriends(currentUserId, user.id)
 
-        binding.btnDeleteFriend.setOnClickListener{
-            friendsVM.deleteFriend(currentUserId, user.id)
-            nav.navigateUp()
-        }
+
+        binding.btnAddFriend.setOnClickListener{sendFriendRequest(user.id)}
+
 
         return binding.root
     }
 
+    private fun sendFriendRequest(friendId: String) {
+        val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
+        val currentUserId = sharedPref.getString("userId", null)
+        currentUserId?.let {
+            if(friendsVM.sendRequest(it, friendId))
+                toast("Friend request sent")
+            else
+                toast("Friend request is pending, please wait the user to accept it")
+        }
+    }
 }

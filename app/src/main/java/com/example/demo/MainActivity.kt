@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         abc = AppBarConfiguration(
             setOf(
+                R.id.homeFragment,
                 R.id.forumFragment,
                 R.id.friendsFragment,
                 R.id.messageFragment,

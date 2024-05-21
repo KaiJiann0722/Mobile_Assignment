@@ -178,23 +178,23 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/btnDeleteFriend"
+        android:id="@+id/btnAcceptRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="@color/design_default_color_error"
-        android:text="Remove  Friend"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="Accept"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/txtUserSince"
+        app:layout_constraintBottom_toBottomOf="@+id/btnDeleteRequest"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtUserSince" />
+        app:layout_constraintTop_toTopOf="@+id/btnDeleteRequest" />
 
     <TextView
         android:id="@+id/lblAge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:text="User Since "
         android:textColor="@color/unactive_text_color"
         android:textSize="16sp"
@@ -213,5 +213,16 @@
         app:layout_constraintStart_toEndOf="@+id/lblAge"
         app:layout_constraintTop_toTopOf="@+id/lblAge"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnDeleteRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="48dp"
+        android:backgroundTint="@color/design_default_color_error"
+        android:text="Reject"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblAge" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

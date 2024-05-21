@@ -67,12 +67,16 @@ class NewFriendFragment : Fragment() {
             findNavController().navigate(R.id.friendRequestFragment)
         }
 
+        binding.btnQR.setOnClickListener {
+            findNavController().navigate(R.id.friendRequestFragment)
+        }
+
         // Inflate the layout for this fragment
         return binding.root
     }
 
     private fun detail(userId: String) {
-        nav.navigate(R.id.friendDetailsFragment, bundleOf("userId" to userId))
+        nav.navigate(R.id.addFriendDetailsFragment, bundleOf("userId" to userId))
     }
 
     private fun sendFriendRequest(friendId: String) {
