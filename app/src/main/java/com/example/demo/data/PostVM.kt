@@ -11,6 +11,7 @@ import com.google.firebase.firestore.toObjects
 class PostVM: ViewModel() {
     private val postLD = MutableLiveData<List<Post>>((emptyList()))
     private var listener: ListenerRegistration? = null
+    private var db: FirebaseFirestore = FirebaseFirestore.getInstance()
     init {
         listener = POSTS.addSnapshotListener { snap, _ ->
             postLD.value = snap?.toObjects()
@@ -30,9 +31,19 @@ class PostVM: ViewModel() {
 
     fun get(postId: String) = getAll().find { it.id == postId }
 
-    fun set(post: Post) { //updatePost
-        POSTS.document(post.id).set(post);
+    fun set(postId: String, post: Post) { //updatePost
+        POSTS.document(postId).set(post);
     }
+
+    fun addLike(postId: String, ownerId: String) {
+        val like = mapOf("postId" to postId, "ownerId" to ownerId)
+        db.collection("like").add(like)
+    }
+
+    fun removeLike(likeId: String) {
+        db.collection("like").document(likeId).delete()
+    }
+
 
     fun add(post: Post) { //addPost
         POSTS.add(post)

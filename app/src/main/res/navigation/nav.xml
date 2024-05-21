@@ -77,4 +77,10 @@
         android:id="@+id/requestFriendDetailsFragment"
         android:name="com.example.demo.ui.RequestFriendDetailsFragment"
         android:label="Friend Request" />
+  
+    <fragment
+        android:id="@+id/postEditFragment"
+        android:name="com.example.demo.ui.PostEditFragment"
+        android:label="fragment_post_edit"
+        tools:layout="@layout/fragment_post_edit" />
 </navigation>
