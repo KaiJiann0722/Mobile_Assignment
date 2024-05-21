@@ -39,4 +39,9 @@
         android:name="com.example.demo.ui.RegisterFragment"
         android:label="Register"
         tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.demo.ui.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/edit_profile"/>
 </navigation>

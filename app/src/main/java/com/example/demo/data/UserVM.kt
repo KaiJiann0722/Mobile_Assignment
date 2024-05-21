@@ -3,15 +3,19 @@ package com.example.demo.data
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObjects
+import com.google.firebase.ktx.Firebase
 
 
 class UserVM : ViewModel() {
     private val userLD = MutableLiveData<List<User>>(emptyList())
+    private val users = Firebase.firestore.collection("users")
     private var listener: ListenerRegistration? = null
 
     init {
-        listener = USERS.addSnapshotListener { snap, _ ->
+        listener = users.addSnapshotListener { snap, _ ->
             userLD.value = snap?.toObjects()
             updateResult()
         }
@@ -30,7 +34,13 @@ class UserVM : ViewModel() {
     fun get(id: String) = getAll().find { it.id == id }
 
     fun set(user: User) {
-        USERS.document(user.id).set(user);
+        users.document(user.id).set(user)
+            .addOnSuccessListener {
+                println("User updated successfully in Firestore.")
+            }
+            .addOnFailureListener { exception ->
+                println("Failed to update user in Firestore: ${exception.message}")
+            }
     }
 
 
@@ -61,10 +71,10 @@ class UserVM : ViewModel() {
         var e = ""
 
         if (insert) {
-            e += if (user.id == "") "- Email required.\n"
-            else if (!user.id.matches(regexEmail)) "- Email format invalid.\n"
-            else if (user.id.length > 100) "- Email too long (max 100 chars).\n"
-            else if (emailExists(user.id)) "- Email duplicated.\n"
+            e += if (user.email == "") "- Email required.\n"
+            else if (!user.email.matches(regexEmail)) "- Email format invalid.\n"
+            else if (user.email.length > 100) "- Email too long (max 100 chars).\n"
+            else if (emailExists(user.email)) "- Email duplicated.\n"
             else ""
         }
 

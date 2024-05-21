@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
@@ -37,7 +38,7 @@ class AuthVM (val app: Application) : AndroidViewModel(app) {
         if (email == "" || password == "") return false
 
         val user = USERS
-            .whereEqualTo(FieldPath.documentId(), email)
+            .whereEqualTo("email", email)
             .whereEqualTo("password", password)
             .get()
             .await()
@@ -89,9 +90,9 @@ class AuthVM (val app: Application) : AndroidViewModel(app) {
         val email = getPreferences().getString("email", null)
         val password = getPreferences().getString("password", null)
 
+
         if (email != null && password != null) {
             login(email, password)
         }
     }
-
 }
