@@ -1,5 +1,6 @@
 package com.example.demo.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,14 +18,16 @@ import com.example.demo.databinding.FragmentCommentBinding
 import com.example.demo.util.CommentAdapter
 import com.example.demo.util.setImageBlob
 import com.example.demo.data.Comment
+import com.example.demo.util.PostAdapter
+import com.example.demo.util.errorDialog
 import com.example.demo.util.formatTimestamp
+import com.example.demo.util.showConfirmationDialog
 import com.google.firebase.Timestamp
 
 class CommentFragment : Fragment() {
 
     private lateinit var binding: FragmentCommentBinding
     private val nav by lazy { findNavController() }
-    private lateinit var commentAdapter : CommentAdapter
     private val postVM: PostVM by activityViewModels()
     private val commentVM: CommentVM by activityViewModels()
     private val postId by lazy { arguments?.getString("postId") ?: "" }
@@ -38,6 +41,7 @@ class CommentFragment : Fragment() {
             nav.navigateUp()
             return null
         }
+
         binding.forumDesc.text = post.postDesc
         binding.postDateTime.text = post.postDate?.let { formatTimestamp(it)}.toString()
         binding.postImg.setImageBlob(post.img)
@@ -45,28 +49,40 @@ class CommentFragment : Fragment() {
             binding.postOwner.text = user?.name ?: "Unknown User"
             user?.photo?.let { binding.ivProfile.setImageBlob(it) }
         }
-
-        commentAdapter = CommentAdapter()
-        binding.commentRecycler.adapter = commentAdapter
+        val adapter = CommentAdapter { h, c ->
+            h.binding.btnDeleteComment.setOnClickListener {
+                showConfirmationDialog("Delete Comment", "Are you sure you want to delete this comment?") {
+                    commentVM.delete(c.id)
+                }
+            }
+        }
+        binding.commentRecycler.adapter = adapter
         binding.commentRecycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
+        val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
+        val currentUserId = sharedPref.getString("userId", null)
 
         commentVM.getResultLD().observe(viewLifecycleOwner) { comments ->
             val filteredComments = comments
                 .filter { it.postId == postId }
                 .sortedByDescending { it.commentDate }
-            commentAdapter.submitList(filteredComments)
+            adapter.submitList(filteredComments)
             binding.txtComments.text = "Comments (" + filteredComments.size + ")"
         }
 
         // Set the click listener for the send button
         binding.btnSend.setOnClickListener {
+            if (currentUserId == null) {
+                errorDialog("Please login to comment.")
+                nav.navigate(R.id.loginFragment)
+                return@setOnClickListener
+            }
             val commentText = binding.iptComment.text.toString().trim()
             if (commentText.isNotEmpty()) {
                 val comment = Comment(
                     postId = postId,
                     commentDesc = commentText,
-                    commentOwnerId = "U1006",
+                    commentOwnerId = currentUserId,
                     commentDate = Timestamp.now()
                 )
                 commentVM.add(comment)

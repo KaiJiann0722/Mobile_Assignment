@@ -63,13 +63,13 @@ class ForumFragment : Fragment() {
                             if (exist) {
                                 postVM.removeLike(likeID)
                                 h.binding.btnLike.setIconTint(ColorStateList.valueOf(Color.WHITE))
-                                updateLikeCountAndButtonText(p.id, h)
+                                h.binding.btnLike.setTextColor(Color.WHITE)
                             } else {
                                 postVM.addLike(p.id, currentUserId)
                                 h.binding.btnLike.setIconTint(ColorStateList.valueOf(Color.RED))
-                                h.binding.btnLike.text = "Liked"
+                                h.binding.btnLike.setTextColor(Color.RED)
                             }
-
+                            updateLikeCountAndButtonText(p.id, h)
                         }
                 } else {
                     errorDialog("Please login to like this post.")

@@ -7,104 +7,44 @@
     android:background="@color/white"
     tools:context=".ui.ChatFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/tbChat"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
+    <View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:background="@color/button_color"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
+        android:padding="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageProfilePhoto"
-        android:layout_width="50dp"
+    <SearchView
+        android:id="@+id/sv"
+        android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:background="@color/white"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@+id/tbChat"
-        app:layout_constraintStart_toStartOf="@+id/tbChat"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/profile" />
-
-    <TextView
-        android:id="@+id/txtName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="16dp"
-        android:text="Username"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageProfilePhoto"
-        app:layout_constraintEnd_toEndOf="@+id/tbChat"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageProfilePhoto"
-        app:layout_constraintTop_toTopOf="@+id/imageProfilePhoto"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/txtStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Online"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tbChat"
-        app:layout_constraintStart_toEndOf="@+id/imageProfilePhoto"
-        app:layout_constraintTop_toBottomOf="@+id/txtName"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabSend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        android:contentDescription="Send Message Button"
-        android:focusable="true"
-        app:backgroundTint="@color/button_color"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_send"
-        app:tint="@color/black" />
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- List of message chats -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMessages"
+        android:id="@+id/rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayoutMessage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.554"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbChat"
-        tools:listitem="@layout/item_message_send" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutMessage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:boxBackgroundColor="@color/white"
+        android:background="@android:color/white"
+        android:clipToPadding="false"
+        android:padding="8dp"
+        android:scrollbars="vertical"
+        app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/fabSend"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Send a message..." />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="1.0"
+        tools:listitem="@layout/item_container_user" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

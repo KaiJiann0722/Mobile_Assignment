@@ -2,6 +2,7 @@ package com.example.demo.ui
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -16,6 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.demo.R
 import com.example.demo.data.Post
 import com.example.demo.data.PostVM
 import com.example.demo.data.USERS
@@ -89,15 +91,23 @@ class PostEditFragment : Fragment() {
     }
 
     private fun submit() {
+        val sharedPref = requireActivity().getSharedPreferences("AUTH",     Context.MODE_PRIVATE)
+        val currentUserId = sharedPref.getString("userId", null)
+        if (currentUserId == null) {
+            errorDialog("User not found. Please login again.")
+            nav.navigate(R.id.loginFragment)
+            return
+        }
+
         val description = binding.edtPostDesc.text.toString().trim()
         if (description.isEmpty()) {
             errorDialog("Description cannot be empty")
         } else {
             val p = Post (
-                postOwnerId = "U1005",
+                postOwnerId = currentUserId,
                 postDesc = description,
                 postDate = Timestamp.now() ,
-                img    = binding.postImg.cropToBlob(650, 500)
+                img    = binding.postImg.cropToBlob(400, 400)
             )
             showConfirmationDialog("Edit Post", "Are you sure you want to Edit this post?") {
                 postVM.set(postId, p)
