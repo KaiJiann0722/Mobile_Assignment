@@ -75,14 +75,14 @@
         android:backgroundTint="@color/selected_button_color"
         android:text="QR"
         android:textColor="@color/white"
-        app:icon="@drawable/ic_scan"
-        app:layout_constraintBottom_toBottomOf="@+id/button2"
+        app:icon="@drawable/ic_qr"
+        app:layout_constraintBottom_toBottomOf="@+id/btnRecommend"
         app:layout_constraintEnd_toStartOf="@+id/btnRequest"
-        app:layout_constraintStart_toEndOf="@+id/button2"
-        app:layout_constraintTop_toTopOf="@+id/button2" />
+        app:layout_constraintStart_toEndOf="@+id/btnRecommend"
+        app:layout_constraintTop_toTopOf="@+id/btnRecommend" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnRecommend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
