@@ -83,4 +83,9 @@
         android:name="com.example.demo.ui.PostEditFragment"
         android:label="fragment_post_edit"
         tools:layout="@layout/fragment_post_edit" />
+    <fragment
+        android:id="@+id/addFriendQRFragment"
+        android:name="com.example.demo.ui.AddFriendQRFragment"
+        android:label="QR"
+        tools:layout="@layout/fragment_add_friend_q_r" />
 </navigation>
