@@ -47,8 +47,6 @@ class LoginFragment : Fragment() {
         val password = binding.edtPassword.text.toString().trim()
         val remember = binding.chkRemember.isChecked
 
-        // TODO(3): Login -> auth.login(...)
-        //          Clear navigation backstack
         lifecycleScope.launch {
             val success = auth.login(email, password, remember)
             if (success) {

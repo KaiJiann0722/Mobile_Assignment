@@ -8,6 +8,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.transition.Slide
+import android.transition.Transition
+import android.transition.TransitionManager
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +19,10 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.demo.R
+import com.example.demo.data.FriendsVM
 import com.example.demo.databinding.FragmentAddFriendQRBinding
 import com.example.demo.databinding.FragmentNewFriendBinding
 import com.example.demo.util.toast
@@ -34,12 +40,26 @@ class AddFriendQRFragment : Fragment() {
     private lateinit var binding: FragmentAddFriendQRBinding
     private val nav by lazy { findNavController() }
     private val userId by lazy { arguments?.getString("userId") ?: "" }
+    private val friendsVM: FriendsVM by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddFriendQRBinding.inflate(inflater, container, false)
+
+        binding.root.setOnClickListener{
+            binding.btnQROption.visibility = View.VISIBLE
+            binding.btnUpload.visibility = View.GONE
+            binding.btnScanQR.visibility = View.GONE
+        }
+
+        binding.btnQROption.setOnClickListener{
+            TransitionManager.beginDelayedTransition(binding.root as ViewGroup)
+            binding.btnQROption.visibility = View.GONE
+            binding.btnUpload.visibility = View.VISIBLE
+            binding.btnScanQR.visibility = View.VISIBLE
+        }
 
         generateQR(userId)
 
@@ -136,6 +156,8 @@ class AddFriendQRFragment : Fragment() {
                     val content = result.text
                     if(content == userId){
                         toast("You cannot add yourself as a friend.")
+                    }else if(friendsVM.get(userId)?.friends?.contains(content) == true){
+                        toast("You are already friends with this user.")
                     }else{
                         nav.navigate(R.id.addFriendDetailsFragment, bundleOf("userId" to content))
                     }

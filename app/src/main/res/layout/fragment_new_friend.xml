@@ -20,7 +20,7 @@
     <View
         android:id="@+id/divider2"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,9 +35,9 @@
         android:text="Request"
         android:textColor="@color/white"
         app:icon="@drawable/ic_friend_request"
-        app:layout_constraintBottom_toBottomOf="@+id/btnQR"
+        app:layout_constraintBottom_toBottomOf="@+id/divider2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnQR" />
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <SearchView
         android:id="@+id/sv"
@@ -72,14 +72,13 @@
         android:id="@+id/btnQR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:backgroundTint="@color/selected_button_color"
-        android:text="QR"
+        android:text="Add With QR"
         android:textColor="@color/white"
         app:icon="@drawable/ic_qr"
-        app:layout_constraintBottom_toBottomOf="@+id/btnRecommend"
-        app:layout_constraintEnd_toStartOf="@+id/btnRequest"
-        app:layout_constraintStart_toEndOf="@+id/btnRecommend"
-        app:layout_constraintTop_toTopOf="@+id/btnRecommend" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnOption" />
 
     <Button
         android:id="@+id/btnRecommend"
@@ -88,9 +87,19 @@
         android:layout_marginStart="8dp"
         android:backgroundTint="@color/selected_button_color"
         android:text="Recommend"
-        app:icon="@drawable/ic_recommend"
-        app:layout_constraintBottom_toBottomOf="@+id/divider2"
+        app:icon="@drawable/ic_feature"
         app:layout_constraintStart_toStartOf="@+id/divider2"
+        app:layout_constraintTop_toBottomOf="@+id/btnQR" />
+
+    <Button
+        android:id="@+id/btnOption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/selected_button_color"
+        android:text="Options"
+        app:layout_constraintBottom_toBottomOf="@+id/divider2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

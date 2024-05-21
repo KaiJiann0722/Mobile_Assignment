@@ -14,20 +14,25 @@
         android:layout_marginEnd="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         tools:src="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/btnScanQR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="80dp"
         android:backgroundTint="@color/selected_button_color"
         android:text="Scan"
+            android:visibility="gone"
+
         android:textColor="@color/white"
+        app:icon="@drawable/ic_scan"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgQR" />
 
     <Button
@@ -38,6 +43,7 @@
         android:backgroundTint="@color/selected_button_color"
         android:text="Download"
         android:textColor="@color/white"
+        app:icon="@drawable/ic_download"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -46,9 +52,23 @@
         android:id="@+id/btnUpload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="128dp"
+        android:visibility="gone"
+
         android:backgroundTint="@color/selected_button_color"
         android:text="Upload"
+        app:icon="@drawable/ic_upload"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgQR" />
+
+    <Button
+        android:id="@+id/btnQROption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
+        android:backgroundTint="@color/selected_button_color"
+        android:text="Scan QR Code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

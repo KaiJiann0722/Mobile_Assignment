@@ -2,6 +2,11 @@ package com.example.demo.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.Slide
+import android.transition.Transition
+import android.transition.TransitionManager
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +16,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.demo.R
 import com.example.demo.data.FriendsVM
 import com.example.demo.data.NewFriendVM
@@ -57,40 +64,27 @@ class FriendRequestFragment : Fragment() {
             adapter.submitList(requests)
         }
 
-//        binding.btnReceived.setOnClickListener(){
-//            friendsVM.getRequestFromLD().observe(viewLifecycleOwner) { requests ->
-//                adapter.setItemType(ItemType.REQUEST_RECEIVED)
-//                binding.txtCount.text = "${requests.size} Request(s)"
-//                adapter.submitList(requests)
-//
-//                // Change the button color and text color when clicked
-//                binding.btnReceived.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.selected_button_color)
-//                binding.btnReceived.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-//
-//                // Reset the other button's color and text color
-//                binding.btnSent.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.unactive_button_color)
-//                binding.btnSent.setTextColor(ContextCompat.getColor(requireContext(), R.color.unactive_text_color))
-//
-//
-//            }
-//        }
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false // We don't want to support move operation in this case
+            }
 
-//        binding.btnSent.setOnClickListener(){
-//            friendsVM.getRequestToLD().observe(viewLifecycleOwner) { requests ->
-//                adapter.setItemType(ItemType.REQUEST_SENT)
-//                binding.txtCount.text = "${requests.size} Request(s)"
-//                adapter.submitList(requests)
-//
-//                // Change the button color and text color when clicked
-//                binding.btnSent.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.selected_button_color)
-//                binding.btnSent.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-//
-//                // Reset the other button's color and text color
-//                binding.btnReceived.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.unactive_button_color)
-//                binding.btnReceived.setTextColor(ContextCompat.getColor(requireContext(), R.color.unactive_text_color))
-//
-//            }
-//        }
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val friendRequest = adapter.currentList[position]
+                if (direction == ItemTouchHelper.LEFT) {
+                    // Handle left swipe
+                    deleteFriendRequest(friendRequest.id)
+                    adapter.notifyItemRemoved(position)
+                } else if (direction == ItemTouchHelper.RIGHT) {
+                    acceptFriendRequest(friendRequest.id)
+                    adapter.notifyItemRemoved(position)
+                }
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(binding.rvRequest)
 
 
         // Inflate the layout for this fragment
@@ -113,8 +107,11 @@ class FriendRequestFragment : Fragment() {
         val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
         val currentUserId = sharedPref.getString("userId", null)
         currentUserId?.let {
-            if(friendsVM.deleteFriendRequest(it, friendId))
+            if(friendsVM.deleteFriendRequest(it, friendId)){
+                val transition: Transition = Slide(Gravity.START)
+                TransitionManager.beginDelayedTransition(binding.rvRequest, transition)
                 toast("Friend request rejected")
+            }
         }
     }
 
