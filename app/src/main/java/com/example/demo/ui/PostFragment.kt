@@ -26,6 +26,7 @@ import android.content.pm.PackageManager
 import android.provider.MediaStore
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.demo.R
 import com.example.demo.data.FriendsVM
 import com.example.demo.data.USERS
 import com.example.demo.data.User
@@ -75,12 +76,19 @@ class PostFragment : Fragment() {
     }
 
     private fun submit() {
+        val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
+        val currentUserId = sharedPref.getString("userId", null)
+        if (currentUserId == null) {
+            errorDialog("User not found. Please login again.")
+            nav.navigate(R.id.loginFragment)
+            return
+        }
         val description = binding.edtPostDesc.text.toString().trim()
         if (description.isEmpty()) {
             errorDialog("Description cannot be empty")
         } else {
             val p = Post (
-                postOwnerId = "U1005",
+                postOwnerId = currentUserId,
                 postDesc = description,
                 postDate = Timestamp.now() ,
                 img    = binding.postImg.cropToBlob(400, 400)

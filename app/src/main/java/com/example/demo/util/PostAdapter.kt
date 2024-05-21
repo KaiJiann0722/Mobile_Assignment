@@ -52,7 +52,6 @@ class PostAdapter(
                 .get()
                 .addOnSuccessListener { documents ->
                     var exist = false
-                    val likeCount = documents.size()
                     for (document in documents) {
                         if (document["ownerId"] == currentUserId) {
                             exist = true
@@ -63,16 +62,16 @@ class PostAdapter(
                         // The post is liked by the current user, change icon tint color to red
                         holder.binding.btnLike.setIconTint(ColorStateList.valueOf(Color.RED))
                         holder.binding.btnLike.setTextColor(Color.RED)
-                        holder.binding.btnLike.text = "Liked"
                     } else {
                         // The post is not liked by the current user, change icon tint color to black
                         holder.binding.btnLike.setIconTint(ColorStateList.valueOf(Color.WHITE))
                         holder.binding.btnLike.setTextColor(Color.WHITE)
-                        if(likeCount == 0) {
-                            holder.binding.btnLike.text = "Like"
-                        } else {
-                            holder.binding.btnLike.text = likeCount.toString() + " Likes"
-                        }
+
+                    }
+                    if(documents.size() == 0) {
+                        holder.binding.btnLike.text = "Like"
+                    } else {
+                        holder.binding.btnLike.text = documents.size().toString() + " Likes"
                     }
                 }
         }

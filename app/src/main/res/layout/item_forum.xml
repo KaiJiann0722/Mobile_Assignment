@@ -116,20 +116,6 @@
                 app:layout_constraintStart_toStartOf="@id/forumDesc"
                 app:layout_constraintTop_toBottomOf="@id/forumDesc" />
 
-            <com.google.android.exoplayer2.ui.PlayerView
-                android:id="@+id/postVideo"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_gravity="center"
-                android:padding="8dp"
-                android:visibility="gone"
-                app:hide_on_touch="true"
-                app:layout_constraintStart_toStartOf="@id/forumDesc"
-                app:layout_constraintTop_toBottomOf="@id/forumDesc"
-                app:resize_mode="fixed_width"
-                app:show_timeout="5000"
-                app:use_controller="false" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

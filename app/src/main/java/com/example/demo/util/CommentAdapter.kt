@@ -1,5 +1,6 @@
 package com.example.demo.util
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -32,6 +33,13 @@ class CommentAdapter(
         }
         holder.binding.commentDescription.text = comment.commentDesc
         holder.binding.commentTime.text = comment.commentDate?.let { formatTimestamp(it) }.toString()
+        val sharedPref = holder.itemView.context.getSharedPreferences("AUTH", Context.MODE_PRIVATE)
+        val currentUserId = sharedPref.getString("userId", null)
+        if(comment.commentOwnerId == currentUserId) {
+            holder.binding.btnDeleteComment.visibility = ViewGroup.VISIBLE
+        } else {
+            holder.binding.btnDeleteComment.visibility = ViewGroup.GONE
+        }
         fn(holder, comment)
     }
 

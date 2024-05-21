@@ -82,7 +82,7 @@
                 android:layout_margin="8dp"
                 android:background="@drawable/edittext_background"
                 android:gravity="top"
-                android:hint="Write a comment"
+                android:hint="Write a Post"
                 android:importantForAutofill="no"
                 android:maxHeight="400dp"
                 android:minHeight="100dp"

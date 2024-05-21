@@ -31,5 +31,24 @@ data class Comment(
 val POSTS = Firebase.firestore.collection("posts")
 val COMMENTS = Firebase.firestore.collection("comments")
 
+data class Chat(
+    @DocumentId
+    val chatId: String = "",
+    val participants1: String = "",
+    val participants2: String = "",
+    val lastMessage: String = "",
+    val date: Timestamp? = null
+)
 
+data class Message(
+    @DocumentId
+    val id: String = "",
+    val chatId: String = "",
+    val senderId: String = "",
+    val message: String = "",
+    val date: Timestamp? = null
+)
+
+val CHATS = Firebase.firestore.collection("chats")
+val MESSAGES = Firebase.firestore.collection("messages")
 

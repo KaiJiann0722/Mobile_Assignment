@@ -1,60 +1,91 @@
 package com.example.demo.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.demo.R
-import com.example.demo.data.FriendsVM
-import com.example.demo.databinding.FragmentChatBinding
+import com.example.demo.data.ChatVM
+import com.example.demo.data.Message
+import com.example.demo.data.MessageVM
+import com.example.demo.data.USERS
+import com.example.demo.data.User
 import com.example.demo.databinding.FragmentMessageBinding
-import com.example.demo.util.UserAdapter
+import com.example.demo.util.MessageAdapter
 import com.example.demo.util.setImageBlob
+import com.google.firebase.Timestamp
 
 class MessageFragment : Fragment() {
 
     private lateinit var binding: FragmentMessageBinding
     private val nav by lazy { findNavController() }
-    private val userVM: FriendsVM by activityViewModels()
+    private val messageVM: MessageVM by activityViewModels()
+    private val chatId by lazy { arguments?.getString("chatId") ?: "" }
+    private val chatVM: ChatVM by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
+        val currentUserId = sharedPref.getString("userId", null)
+
         binding = FragmentMessageBinding.inflate(inflater, container, false)
-
-        val adapter = UserAdapter { h, f ->
-            h.binding.root.setOnClickListener { detail(f.id) }
+        val chat = chatVM.get(chatId)
+        if (chat == null || currentUserId == null) {
+            nav.navigateUp()
+            return null
+        }
+        val recepientId = if (chat.participants1 == currentUserId) chat.participants2 else chat.participants1
+        fetchUserInfo(recepientId) { user ->
+            binding.txtName.text = user?.name ?: "Unknown User"
+            user?.photo?.let { binding.imageProfilePhoto.setImageBlob(it) }
         }
 
-        binding.rv.adapter = adapter
-        binding.rv.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        val adapter = MessageAdapter(requireContext())
+        binding.rvMessages.adapter = adapter
+        binding.rvMessages.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
-        // TODO(13): Change to result live data
-        userVM.getResultLD().observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+
+        messageVM.getResultLD().observe(viewLifecycleOwner) { chats  ->
+            val filteredChats = chats
+                .filter { it.chatId == chatId }
+            adapter.submitList(filteredChats)
         }
 
-        binding.sv.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(name: String) = true
-            override fun onQueryTextChange(name: String): Boolean {
-                userVM.search(name)
-                return true
+        binding.btnSendMessage.setOnClickListener {
+            val messageText = binding.edtMessage.text.toString().trim()
+            if (messageText.isNotEmpty()) {
+                // Create a new message and add it to the database
+                val message = Message(
+                    chatId = chatId,
+                    message = messageText,
+                    senderId = currentUserId,
+                    date = Timestamp.now()
+                )
+                messageVM.add(message)
+                // Clear the EditText
+                binding.edtMessage.text.clear()
             }
-        })
+        }
+
         return binding.root
     }
-
-    private fun detail(userId: String) {
-        nav.navigate(
-            R.id.chatFragment, bundleOf(
-                "userId" to userId
-            )
-        )
+    private fun fetchUserInfo(ownerId: String, callback: (User?) -> Unit) {
+        USERS.document(ownerId).get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    val user = document.toObject(User::class.java)
+                    callback(user)
+                } else {
+                    callback(null)
+                }
+            }
     }
+
 }

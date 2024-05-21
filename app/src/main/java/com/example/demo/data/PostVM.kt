@@ -50,8 +50,39 @@ class PostVM: ViewModel() {
     }
 
     fun delete(postId: String) { //deletePost
-        // TODO: Delete record by id
-        POSTS.document(postId).delete()
+        val batch = db.batch()
+
+        // Delete the post
+        val postRef = POSTS.document(postId)
+        batch.delete(postRef)
+
+        // Delete the comments associated with the post
+        db.collection("comments")
+            .whereEqualTo("postId", postId)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    batch.delete(document.reference)
+                }
+
+                // Delete the likes associated with the post
+                db.collection("like")
+                    .whereEqualTo("postId", postId)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
+                            batch.delete(document.reference)
+                        }
+
+                        // Commit the batch
+                        batch.commit().addOnSuccessListener {
+                            Log.d("PostVM", "Post, associated comments and likes successfully deleted!")
+                        }.addOnFailureListener { e ->
+                            Log.w("PostVM", "Error deleting post, associated comments and likes", e)
+                        }
+                    }
+            }
+
     }
 
 
