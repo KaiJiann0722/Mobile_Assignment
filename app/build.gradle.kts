@@ -45,4 +45,12 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.0")
     implementation("com.google.firebase:firebase-firestore:25.0.0")
+
+
+    implementation ("com.google.android.exoplayer:exoplayer:2.17.1")
+    implementation("com.google.firebase:firebase-storage:21.0.0")
+
+    //QR code
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
 }

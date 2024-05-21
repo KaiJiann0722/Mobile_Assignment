@@ -34,6 +34,7 @@ class RegisterFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
         // -----------------------------------------------------------------------------------------
+
         reset()
         binding.imgPhoto.setOnClickListener { select() }
         binding.btnReset.setOnClickListener { reset() }
@@ -77,6 +78,7 @@ class RegisterFragment : Fragment() {
         binding.edtDOB.text.clear()
         binding.spnField.setSelection(0)
         binding.imgPhoto.setImageDrawable(null)
+
         binding.edtEmail.requestFocus()
     }
 
@@ -129,6 +131,7 @@ class RegisterFragment : Fragment() {
         val e = vm.validate(user)
         if (e != "") {
             errorDialog(e)
+            return
         }
 
         vm.set(user)

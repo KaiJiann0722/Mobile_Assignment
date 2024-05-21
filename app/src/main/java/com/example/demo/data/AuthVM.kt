@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
@@ -32,9 +31,7 @@ class AuthVM (val app: Application) : AndroidViewModel(app) {
     fun getUser() = userLD.value
 
     // TODO(1): Login
-    suspend fun login(email: String, password: String, remember: Boolean = false) : Boolean {
-        // TODO(1A): Get the user record with matching email + password
-        //           Return false is no matching found
+    suspend fun login(email: String, password:String, remember: Boolean = false) : Boolean{
         if (email == "" || password == "") return false
 
         val user = USERS
@@ -45,12 +42,8 @@ class AuthVM (val app: Application) : AndroidViewModel(app) {
             .toObjects<User>()
             .firstOrNull() ?: return false
 
-        // TODO(1B): Setup snapshot listener
-        //           Update live data -> user
         listener?.remove()
-        listener = USERS.document(user.id).addSnapshotListener { snap, _ ->
-            userLD.value = snap?.toObject()
-        }
+        listener = USERS.document(user.id).addSnapshotListener { snap, _ ->  userLD.value = snap?.toObject() }
 
         // TODO(6A): Handle remember-me -> add shared preferences
         if (remember) {
@@ -95,4 +88,5 @@ class AuthVM (val app: Application) : AndroidViewModel(app) {
             login(email, password)
         }
     }
+
 }

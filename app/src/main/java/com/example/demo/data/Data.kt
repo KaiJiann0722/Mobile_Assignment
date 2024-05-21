@@ -22,9 +22,9 @@ data class User(
     @DocumentId
     var id: String = "",
     var name: String = "",
-    var dateOfBirth: String = "",
     var bio: String = "",
     var email: String = "",
+    var dateOfBirth: String = "",
     var password: String = "",
     var gender: String = "",
     var fieldID: String = "",
@@ -34,6 +34,7 @@ data class User(
     var friendRequestTo: List<String> = emptyList(),
     var friendRequestFrom: List<String> = emptyList(),
     var dateCreated: Timestamp = Timestamp.now(),
+
 ) {
     @get:Exclude
     var field: Field  =  Field()

@@ -1,5 +1,6 @@
 package com.example.demo.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -46,8 +47,6 @@ class LoginFragment : Fragment() {
         val password = binding.edtPassword.text.toString().trim()
         val remember = binding.chkRemember.isChecked
 
-        // TODO(3): Login -> auth.login(...)
-        //          Clear navigation backstack
         lifecycleScope.launch {
             val success = auth.login(email, password, remember)
             if (success) {
@@ -59,7 +58,6 @@ class LoginFragment : Fragment() {
             }
         }
     }
-
 }
 
 

@@ -4,6 +4,7 @@ package com.example.demo.util
 import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.icu.text.SimpleDateFormat
 import android.os.Build
 import android.widget.ImageView
 import android.widget.Toast
@@ -14,8 +15,10 @@ import androidx.core.graphics.scale
 import androidx.fragment.app.Fragment
 import com.example.demo.R
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Blob
 import java.io.ByteArrayOutputStream
+import java.util.Locale
 
 // ----------------------------------------------------------------------------
 // Fragment Extensions
@@ -40,6 +43,32 @@ fun Fragment.errorDialog(text: String) {
         .setPositiveButton("Dismiss", null)
         .show()
 }
+
+fun Fragment.successDialog(text: String) {
+    AlertDialog.Builder(context)
+        .setIcon(R.drawable.ic_done)
+        .setTitle("Success")
+        .setMessage(text)
+        .setPositiveButton("OK", null)
+        .show()
+}
+
+fun Fragment.showConfirmationDialog(title: String, message: String, confirmAction: () -> Unit) {
+    AlertDialog.Builder(requireContext())
+        .setTitle(title)
+        .setMessage(message)
+        .setPositiveButton("Yes") { dialog, _ ->
+            confirmAction()
+            dialog.dismiss()
+        }
+        .setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+        .create()
+        .show()
+}
+
+
 
 // Usage: Show an information dialog from fragment
 fun Fragment.infoDialog(text: String) {
@@ -120,4 +149,13 @@ fun ImageView.cropToBlob(width: Int, height: Int): Blob {
 // Usage: Load Firebase Blob
 fun ImageView.setImageBlob(blob: Blob) {
     setImageBitmap(blob.toBitmap())
+}
+
+fun ImageView.toBlob(): Blob {
+    return drawable?.toBitmapOrNull()?.toBlob() ?: Blob.fromBytes(ByteArray(0))
+}
+
+fun formatTimestamp(timestamp: Timestamp): String {
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    return sdf.format(timestamp.toDate())
 }

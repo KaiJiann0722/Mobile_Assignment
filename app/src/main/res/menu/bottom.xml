@@ -8,13 +8,19 @@
         android:icon="@drawable/ic_home"
         android:title="Home" />
     <item
+        android:id="@+id/forumFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_forum"
+        android:title="Forum" />
+    <item
         android:id="@+id/friendsFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/ic_friends"
         android:title="Friends" />
     <item
-        android:id="@+id/chatFragment"
+        android:id="@+id/messageFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/chat"
