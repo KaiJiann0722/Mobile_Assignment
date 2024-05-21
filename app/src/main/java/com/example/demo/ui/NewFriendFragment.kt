@@ -2,6 +2,7 @@ package com.example.demo.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.transition.TransitionManager
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,15 +14,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.demo.R
 import com.example.demo.data.FriendsVM
+import com.example.demo.data.RecommendVM
 import com.example.demo.databinding.FragmentNewFriendBinding
 import com.example.demo.util.NewFriendAdapter
 import com.example.demo.util.toast
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 
 
 class NewFriendFragment : Fragment() {
     private lateinit var binding: FragmentNewFriendBinding
     private val nav by lazy { findNavController() }
     private val friendsVM: FriendsVM by activityViewModels()
+    private val RecommendVM: RecommendVM by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,6 +49,7 @@ class NewFriendFragment : Fragment() {
             friendsVM.fetchFriends(userId)
             friendsVM.fetchNewFriends(userId)
             friendsVM.fetchRequests(userId)
+            RecommendVM.fetchNewFriends(userId)
         } else {
             // Handle the case where the user ID is not found, e.g., redirect to login
             nav.navigate(R.id.loginFragment)
@@ -61,14 +67,35 @@ class NewFriendFragment : Fragment() {
             }
         })
 
+        binding.btnQR.visibility = View.GONE
+        binding.btnRecommend.visibility = View.GONE
+        binding.btnOption.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_expand_more,0,0, 0)
+
+        binding.btnOption.setOnClickListener {
+            TransitionManager.beginDelayedTransition(binding.root as ViewGroup)
+            if(binding.btnQR.visibility == View.VISIBLE){
+                binding.btnQR.visibility = View.GONE
+                binding.btnRecommend.visibility = View.GONE
+                binding.btnOption.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_expand_more,0,0, 0)
+            }
+            else{
+                binding.btnQR.visibility = View.VISIBLE
+                binding.btnRecommend.visibility = View.VISIBLE
+                binding.btnOption.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_expand_less,0,0, 0)
+            }
+
+        }
 
 
         binding.btnRequest.setOnClickListener {
             findNavController().navigate(R.id.friendRequestFragment)
         }
+        binding.btnRecommend.setOnClickListener {
+            findNavController().navigate(R.id.recommendFriendFragment)
+        }
 
         binding.btnQR.setOnClickListener {
-            findNavController().navigate(R.id.friendRequestFragment)
+            nav.navigate(R.id.addFriendQRFragment, bundleOf("userId" to userId))
         }
 
         // Inflate the layout for this fragment
@@ -89,4 +116,5 @@ class NewFriendFragment : Fragment() {
                 toast("Friend request is pending, please wait the user to accept it")
         }
     }
+
 }

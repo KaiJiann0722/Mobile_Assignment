@@ -49,6 +49,7 @@ class AddFriendQRFragment : Fragment() {
         binding = FragmentAddFriendQRBinding.inflate(inflater, container, false)
 
         binding.root.setOnClickListener{
+            TransitionManager.beginDelayedTransition(binding.root as ViewGroup)
             binding.btnQROption.visibility = View.VISIBLE
             binding.btnUpload.visibility = View.GONE
             binding.btnScanQR.visibility = View.GONE

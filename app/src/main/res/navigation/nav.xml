@@ -94,4 +94,9 @@
         android:name="com.example.demo.ui.EditProfileFragment"
         android:label="Edit Profile"
         tools:layout="@layout/edit_profile"/>
+    <fragment
+        android:id="@+id/recommendFriendFragment"
+        android:name="com.example.demo.ui.RecommendFriendFragment"
+        android:label="Recommand"
+        tools:layout="@layout/fragment_recommend_friend" />
 </navigation>

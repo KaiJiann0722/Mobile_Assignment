@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#00BCD4"
+    android:backgroundTint="@color/primary_color"
     android:padding="8dp">
 
     <ImageView
@@ -24,6 +25,7 @@
         android:layout_marginTop="16dp"
         android:text="Bae Suzy"
         android:textAllCaps="true"
+        android:textColor="@color/white"
         android:textSize="34sp"
         app:layout_constraintStart_toEndOf="@+id/imgPhoto"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="suzy@gmail.com"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/imgPhoto"
         app:layout_constraintTop_toBottomOf="@+id/txtName" />

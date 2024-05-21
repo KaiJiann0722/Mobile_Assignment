@@ -2,6 +2,7 @@ package com.example.demo.ui
 
 import android.content.Context
 import android.os.Bundle
+import com.google.firebase.Timestamp
 import android.transition.AutoTransition
 import android.transition.Slide
 import android.transition.Transition
@@ -19,6 +20,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.demo.R
+import com.example.demo.data.Chat
+import com.example.demo.data.ChatVM
 import com.example.demo.data.FriendsVM
 import com.example.demo.data.NewFriendVM
 import com.example.demo.databinding.FragmentFriendRequestBinding
@@ -30,6 +33,7 @@ class FriendRequestFragment : Fragment() {
     private lateinit var binding: FragmentFriendRequestBinding
     private val nav by lazy { findNavController() }
     private val friendsVM: FriendsVM by activityViewModels()
+    private val chatVM: ChatVM by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -99,8 +103,19 @@ class FriendRequestFragment : Fragment() {
         val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
         val currentUserId = sharedPref.getString("userId", null)
         currentUserId?.let {
-            if(friendsVM.acceptFriendRequest(it, friendId))
+            if(friendsVM.acceptFriendRequest(it, friendId)){
                 toast("Friend request accepted")
+
+                if(!chatVM.checkIfChatExist(currentUserId, friendId)){
+                    val chat = Chat(
+                        participants1 = currentUserId,
+                        participants2 = friendId,
+                        lastMessage= "",
+                        date = Timestamp.now()
+                    )
+                    chatVM.add(chat)
+                }
+            }
         }
     }
     private fun deleteFriendRequest(friendId: String) {

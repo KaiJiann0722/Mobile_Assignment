@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment,
                 R.id.forumFragment,
                 R.id.friendsFragment,
-                R.id.messageFragment,
+                R.id.chatFragment,
                 R.id.profileFragment
             ),
             binding.root

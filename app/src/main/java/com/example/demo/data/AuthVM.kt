@@ -45,7 +45,12 @@ class AuthVM (val app: Application) : AndroidViewModel(app) {
         listener?.remove()
         listener = USERS.document(user.id).addSnapshotListener { snap, _ ->  userLD.value = snap?.toObject() }
 
-        // TODO(6A): Handle remember-me -> add shared preferences
+
+        getPreferences()
+            .edit()
+            .putString("userId", user.id)
+            .apply()
+
         if (remember) {
             getPreferences()
                 .edit()

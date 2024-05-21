@@ -50,6 +50,7 @@ class LoginFragment : Fragment() {
         lifecycleScope.launch {
             val success = auth.login(email, password, remember)
             if (success) {
+
                 nav.popBackStack(R.id.homeFragment, false)
                 nav.navigateUp()
             }

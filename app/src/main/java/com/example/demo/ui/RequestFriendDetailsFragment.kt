@@ -9,10 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.demo.R
+import com.example.demo.data.Chat
+import com.example.demo.data.ChatVM
 import com.example.demo.data.FieldVM
 import com.example.demo.data.FriendsVM
 import com.example.demo.databinding.FragmentRequestFriendDetailsBinding
 import com.example.demo.util.toast
+import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -21,6 +24,7 @@ class RequestFriendDetailsFragment : Fragment() {
     private val nav by lazy { findNavController() }
     private val userId by lazy { arguments?.getString("userId") ?: "" }
     private val fieldVM: FieldVM by activityViewModels()
+    private val chatVM: ChatVM by activityViewModels()
 
     private val friendsVM: FriendsVM by activityViewModels()
 
@@ -91,8 +95,17 @@ class RequestFriendDetailsFragment : Fragment() {
         val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
         val currentUserId = sharedPref.getString("userId", null)
         currentUserId?.let {
-            if(friendsVM.acceptFriendRequest(it, friendId))
+            if(friendsVM.acceptFriendRequest(it, friendId)){
                 toast("Friend request accepted")
+
+                val chat = Chat(
+                    participants1 = currentUserId,
+                    participants2 = friendId,
+                    lastMessage= "",
+                    date = Timestamp.now()
+                )
+                chatVM.add(chat)
+            }
         }
     }
     private fun deleteFriendRequest(friendId: String) {

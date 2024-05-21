@@ -39,4 +39,9 @@ class ChatVM: ViewModel() {
         var list = getAll()
         resultLD.value = list
     }
+
+    fun checkIfChatExist(userID:String, friendID:String): Boolean {
+        val chat = getAll().find { it.participants1.contains(userID) && it.participants2.contains(friendID) && it.participants1.contains(friendID) && it.participants2.contains(userID) }
+        return chat != null
+    }
 }
