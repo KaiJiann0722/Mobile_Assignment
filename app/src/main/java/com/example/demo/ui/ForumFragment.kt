@@ -119,6 +119,11 @@ class ForumFragment : Fragment() {
             val checked = binding.chckBox.isChecked
             postVM.searchMyPost(currentUserId, checked)
         }
+
+        binding.chkTodayPost.setOnCheckedChangeListener { _, _ ->
+            val checkedToday = binding.chkTodayPost.isChecked
+            postVM.searchTodayPost(checkedToday)
+        }
         return binding.root
     }
 

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
@@ -29,7 +30,10 @@ import com.example.demo.util.formatTimestamp
 import com.example.demo.util.setImageBlob
 import com.example.demo.util.showConfirmationDialog
 import com.example.demo.util.successDialog
+import com.example.demo.util.toBlob
 import com.google.firebase.Timestamp
+import java.io.File
+import java.io.FileOutputStream
 
 class PostEditFragment : Fragment() {
 
@@ -64,7 +68,7 @@ class PostEditFragment : Fragment() {
 
         binding.btnRemove.setOnClickListener {
             binding.btnRemove.visibility = View.GONE
-            binding.postImg.setImageURI(null)
+            binding.postImg.setImageDrawable(null)
         }
 
         binding.btnCancel.setOnClickListener {
@@ -106,7 +110,7 @@ class PostEditFragment : Fragment() {
                 postOwnerId = currentUserId,
                 postDesc = description,
                 postDate = Timestamp.now() ,
-                img    = binding.postImg.cropToBlob(300, 300)
+                img    = binding.postImg.toBlob()
             )
             showConfirmationDialog("Edit Post", "Are you sure you want to Edit this post?") {
                 postVM.set(postId, p)

@@ -45,6 +45,7 @@ class MessageFragment : Fragment() {
         fetchUserInfo(recepientId) { user ->
             binding.txtName.text = user?.name ?: "Unknown User"
             user?.photo?.let { binding.imageProfilePhoto.setImageBlob(it) }
+            binding.txtStatus.text = user?.status ?: "Unknown Status"
         }
 
         val adapter = MessageAdapter(requireContext())

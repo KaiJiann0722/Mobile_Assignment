@@ -91,9 +91,15 @@ class PostVM: ViewModel() {
     private var name = ""
     private var checked = false
     private var userId = ""
+    private var checkedToday = false
     fun searchMyPost(currentUserId: String, check: Boolean) {
         checked = check
         userId = currentUserId
+        updateResult()
+    }
+
+    fun searchTodayPost(checked: Boolean) {
+        checkedToday = checked
         updateResult()
     }
 
@@ -111,6 +117,11 @@ class PostVM: ViewModel() {
 
         if (checked) {
             list = list.filter { it.postOwnerId == userId }
+        }
+
+        if (checkedToday) {
+            list = list.filter { it.postDate?.toDate()?.time ?: 0 > System.currentTimeMillis() - 86400000
+            }
         }
         resultLD.value = list
     }
