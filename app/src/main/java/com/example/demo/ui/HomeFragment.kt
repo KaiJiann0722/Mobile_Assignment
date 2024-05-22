@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.demo.R
 import com.example.demo.data.FriendsVM
 import com.example.demo.data.NewFriendVM
+import com.example.demo.data.UserVM
 import com.example.demo.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -19,6 +20,7 @@ class HomeFragment : Fragment() {
     private val nav by lazy { findNavController() }
     private val friendsVM: FriendsVM by activityViewModels()
     private val newFriendVM: NewFriendVM by activityViewModels()
+    private val userVM: UserVM by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -31,12 +33,15 @@ class HomeFragment : Fragment() {
             friendsVM.fetchFriends(userId)
             newFriendVM.fetchNewFriends(userId)
             friendsVM.fetchRequests(userId)
+            userVM.updateStatus(userId, "Online")
         } else {
             // Handle the case where the user ID is not found, e.g., redirect to login
-            nav.navigate(R.id.loginFragment)
+            //nav.navigate(R.id.loginFragment)
         }
 
         return binding.root
     }
+
+
 
 }

@@ -31,6 +31,7 @@ class RequestAdapter(
         val user = getItem(position)
         val id = user.id
 
+        holder.binding.imgProfile.setImageBlob(user.photo)
         holder.binding.txtName.text = user.name
 
         fn(holder, user)

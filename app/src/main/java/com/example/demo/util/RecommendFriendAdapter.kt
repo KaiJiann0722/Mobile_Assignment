@@ -26,7 +26,7 @@ class RecommendFriendAdapter (
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = getItem(position)
         val id = user.id
-        //holder.binding.imgProfile.setImageBlob(user.photo)
+        holder.binding.imgRecommandProfile.setImageBlob(user.photo)
         holder.binding.txtRecommandName.text = user.name
         fn(holder, user)
     }

@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.demo.R
 import com.example.demo.data.AuthVM
+import com.example.demo.data.UserVM
 import com.example.demo.databinding.FragmentLoginBinding
 import com.example.demo.util.errorDialog
 import kotlinx.coroutines.launch
@@ -20,6 +21,7 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val nav by lazy { findNavController() }
     private val auth: AuthVM by activityViewModels()
+    private val userVM: UserVM by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
@@ -50,7 +52,6 @@ class LoginFragment : Fragment() {
         lifecycleScope.launch {
             val success = auth.login(email, password, remember)
             if (success) {
-
                 nav.popBackStack(R.id.homeFragment, false)
                 nav.navigateUp()
             }

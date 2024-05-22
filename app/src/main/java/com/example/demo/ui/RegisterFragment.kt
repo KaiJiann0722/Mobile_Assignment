@@ -125,7 +125,8 @@ class RegisterFragment : Fragment() {
             gender = Gender,
             password = Password,
             name = Name,
-            photo = Photo
+            photo = Photo,
+            status = "Online"
         )
 
         val e = vm.validate(user)

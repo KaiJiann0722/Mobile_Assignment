@@ -26,7 +26,7 @@ class FriendListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = getItem(position)
         val id = user.id
-        //holder.binding.imgProfile.setImageBlob(user.photo)
+        holder.binding.imgProfile.setImageBlob(user.photo)
         holder.binding.txtName.text = user.name
         holder.binding.txtStatus.text = user.status
         fn(holder, user)

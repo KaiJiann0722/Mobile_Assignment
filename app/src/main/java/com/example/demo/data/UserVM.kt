@@ -93,4 +93,10 @@ class UserVM : ViewModel() {
 
         return e
     }
+
+    fun updateStatus(id: String, status: String) {
+        val user = get(id) ?: return
+        user.status = status
+        set(user)
+    }
 }
