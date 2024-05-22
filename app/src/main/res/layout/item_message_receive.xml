@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="12:34 PM"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,7 +66,6 @@ class PostFragment : Fragment() {
         }
 
         binding.btnRemove.setOnClickListener {
-            binding.postImg.visibility = View.GONE
             binding.btnRemove.visibility = View.GONE
             binding.postImg.setImageURI(null)
         }
@@ -89,9 +88,10 @@ class PostFragment : Fragment() {
         } else {
             val p = Post (
                 postOwnerId = currentUserId,
+                postOwnerName = binding.postOwner.text.toString(),
                 postDesc = description,
                 postDate = Timestamp.now() ,
-                img    = binding.postImg.cropToBlob(400, 400)
+                img    = binding.postImg.cropToBlob(300, 300)
             )
             postVM.add(p)
             successDialog("Post Added Successfully")

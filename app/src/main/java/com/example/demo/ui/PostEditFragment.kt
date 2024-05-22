@@ -63,7 +63,6 @@ class PostEditFragment : Fragment() {
         }
 
         binding.btnRemove.setOnClickListener {
-            binding.postImg.visibility = View.GONE
             binding.btnRemove.visibility = View.GONE
             binding.postImg.setImageURI(null)
         }
@@ -107,7 +106,7 @@ class PostEditFragment : Fragment() {
                 postOwnerId = currentUserId,
                 postDesc = description,
                 postDate = Timestamp.now() ,
-                img    = binding.postImg.cropToBlob(400, 400)
+                img    = binding.postImg.cropToBlob(300, 300)
             )
             showConfirmationDialog("Edit Post", "Are you sure you want to Edit this post?") {
                 postVM.set(postId, p)

@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hello, this is a sample message."
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
         <!-- Timestamp -->
@@ -34,7 +34,8 @@
             android:layout_gravity="end"
             android:layout_marginTop="4dp"
             android:text="12:34 PM"
-            android:textSize="12sp" />
+            android:textColor="@color/white"
+            android:textSize="13sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,6 +43,10 @@ class ForumFragment : Fragment() {
 
         val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
         val currentUserId = sharedPref.getString("userId", null)
+        if (currentUserId == null) {
+            errorDialog("Please login to view this page.")
+            return null
+        }
 
         val adapter = PostAdapter { h, p ->
             h.binding.btnLike.setOnClickListener {
@@ -95,7 +99,12 @@ class ForumFragment : Fragment() {
         binding.forumRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         postVM.getResultLD().observe(viewLifecycleOwner) {
+            binding.textView2.text = "${it.size} Post(s)"
             adapter.submitList(it)
+
+            binding.forumRecyclerView.postDelayed({
+                binding.forumRecyclerView.scrollToPosition(0)
+            }, 100)
         }
 
         binding.sv.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
@@ -106,6 +115,10 @@ class ForumFragment : Fragment() {
             }
         })
 
+        binding.chckBox.setOnCheckedChangeListener { _, _ ->
+            val checked = binding.chckBox.isChecked
+            postVM.searchMyPost(currentUserId, checked)
+        }
         return binding.root
     }
 

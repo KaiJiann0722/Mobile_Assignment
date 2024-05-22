@@ -2,6 +2,7 @@ package com.example.demo.data
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.toObjects
 
@@ -32,6 +33,13 @@ class ChatVM: ViewModel() {
         CHATS.add(chat)
     }
 
+    fun updateChat(chatId: String, lastMessage: String, date: Timestamp) {
+        val chatRef = CHATS.document(chatId)
+        chatRef.update(
+            "lastMessage", lastMessage,
+            "date", date
+        )
+    }
     private val resultLD = MutableLiveData<List<Chat>>()
     fun getResultLD() = resultLD
 
