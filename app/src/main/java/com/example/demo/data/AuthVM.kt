@@ -69,6 +69,13 @@ class AuthVM (val app: Application) : AndroidViewModel(app) {
         listener?.remove()
         userLD.value = null
 
+
+        getPreferences()
+            .edit()
+            .remove("userId")
+            .apply()
+
+
         // TODO(6B): Handle remember-me -> clear shared preferences
         getPreferences()
             .edit()

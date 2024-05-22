@@ -1,8 +1,10 @@
 package com.example.demo
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -11,6 +13,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.demo.data.AuthVM
 import com.example.demo.data.User
+import com.example.demo.data.UserVM
 import com.example.demo.databinding.ActivityMainBinding
 import com.example.demo.databinding.HeaderLoginBinding
 import com.example.demo.util.setImageBlob
@@ -20,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val nav by lazy { supportFragmentManager.findFragmentById(R.id.host)!!.findNavController() }
+    private val userVM: UserVM by viewModels()
 
     private lateinit var abc: AppBarConfiguration
     private val auth: AuthVM by viewModels()
@@ -91,12 +95,27 @@ class MainActivity : AppCompatActivity() {
     private fun logout(): Boolean {
         // TODO(4): Logout -> auth.logout(...)
         //          Clear navigation backstack
+        val sharedPref = getSharedPreferences("AUTH", Context.MODE_PRIVATE)
+        val userId = sharedPref.getString("userId", null)?:return false
+        userVM.updateStatus(userId, "Offline")
         auth.logout()
+
+
         nav.popBackStack(R.id.homeFragment, false)
         nav.navigateUp()
 
         binding.root.close()
         return true
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        val sharedPref = getSharedPreferences("AUTH", Context.MODE_PRIVATE)
+        val userId = sharedPref.getString("userId", null)
+        userId?.let {
+            userVM.updateStatus(it, "Offline")
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

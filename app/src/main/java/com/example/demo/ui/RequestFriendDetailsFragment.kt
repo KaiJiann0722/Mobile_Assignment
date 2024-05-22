@@ -14,6 +14,7 @@ import com.example.demo.data.ChatVM
 import com.example.demo.data.FieldVM
 import com.example.demo.data.FriendsVM
 import com.example.demo.databinding.FragmentRequestFriendDetailsBinding
+import com.example.demo.util.setImageBlob
 import com.example.demo.util.toast
 import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
@@ -57,8 +58,7 @@ class RequestFriendDetailsFragment : Fragment() {
             nav.navigateUp()
             return null
         }
-        binding.imgProfile.setImageResource(R.drawable.horse)
-        //binding.imgProfile.setImageBlob(user.photo)
+        binding.imgProfile.setImageBlob(user.photo)
         binding.txtName.text = user.name
         binding.txtFriendEmail.text = user.email
         binding.txtGender.text = user.gender
