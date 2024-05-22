@@ -3,7 +3,6 @@ package com.example.demo.ui
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,19 +18,20 @@ import com.example.demo.util.cropToBlob
 import com.example.demo.util.errorDialog
 import com.example.demo.util.successDialog
 import com.google.firebase.Timestamp
-import java.util.Locale
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.provider.MediaStore
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.demo.R
-import com.example.demo.data.FriendsVM
 import com.example.demo.data.USERS
 import com.example.demo.data.User
-import com.example.demo.util.formatTimestamp
 import com.example.demo.util.setImageBlob
+import com.example.demo.util.toBlob
+import java.io.File
+import java.io.FileOutputStream
 
 class PostFragment : Fragment() {
     private lateinit var binding: FragmentPostBinding
@@ -67,7 +67,7 @@ class PostFragment : Fragment() {
 
         binding.btnRemove.setOnClickListener {
             binding.btnRemove.visibility = View.GONE
-            binding.postImg.setImageURI(null)
+            binding.postImg.setImageDrawable(null)
         }
 
         return binding.root
@@ -91,7 +91,7 @@ class PostFragment : Fragment() {
                 postOwnerName = binding.postOwner.text.toString(),
                 postDesc = description,
                 postDate = Timestamp.now() ,
-                img    = binding.postImg.cropToBlob(300, 300)
+                img    = binding.postImg.toBlob()
             )
             postVM.add(p)
             successDialog("Post Added Successfully")

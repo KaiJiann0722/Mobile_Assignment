@@ -2,6 +2,7 @@ package com.example.demo.util
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -36,6 +37,13 @@ class ChatAdapter(val fn: (ViewHolder, Chat) -> Unit = { _, _ -> }
         fetchUserInfo(participantId) { user ->
             holder.binding.username.text = user?.name ?: "Unknown User"
             user?.photo?.let { holder.binding.profileImage.setImageBlob(it) }
+            if (user != null) {
+                if(user.status == "Online") {
+                    holder.binding.statusIndicator.visibility = View.VISIBLE
+                } else {
+                    holder.binding.statusIndicator.visibility = View.GONE
+                }
+            }
         }
         fn(holder, chat)
     }

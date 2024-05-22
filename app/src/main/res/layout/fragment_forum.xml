@@ -73,4 +73,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sv" />
 
+    <CheckBox
+        android:id="@+id/chkTodayPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Today Post"
+        app:layout_constraintStart_toEndOf="@+id/chckBox"
+        app:layout_constraintTop_toTopOf="@+id/chckBox" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
