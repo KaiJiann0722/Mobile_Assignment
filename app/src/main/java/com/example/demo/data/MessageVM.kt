@@ -24,12 +24,16 @@ class MessageVM: ViewModel() {
 
     fun getChatLD() = messageLD
 
-    fun getAll() = messageLD.value?.sortedBy{ it.date} ?: emptyList()
+    fun getAll() = messageLD.value?.sortedBy{it.date} ?: emptyList()
 
     fun get(id: String) = getAll().find { it.id == id }
 
     fun add(message: Message) { //addChat
         MESSAGES.add(message)
+    }
+
+    fun delete(messageId: String) {
+        MESSAGES.document(messageId).delete()
     }
 
     private val resultLD = MutableLiveData<List<Message>>()
