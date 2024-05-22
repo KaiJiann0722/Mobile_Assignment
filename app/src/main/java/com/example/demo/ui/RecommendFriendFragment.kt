@@ -117,7 +117,7 @@ class RecommendFriendFragment : Fragment() {
 
     private fun skip(skipID: String) {
         recommendVM.skip(skipID)
-        toast("Skiped")
+        toast("Skipped")
     }
 
     private fun sendFriendRequest(friendId: String) {
