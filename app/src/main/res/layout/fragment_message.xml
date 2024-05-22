@@ -10,7 +10,7 @@
         android:id="@+id/tbChat"
         android:layout_width="0dp"
         android:layout_height="70dp"
-        android:background="@color/button_color"
+        android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +28,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/tbChat"
         app:layout_constraintStart_toStartOf="@+id/tbChat"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/profile" />
+        tools:srcCompat="@drawable/profile" />
 
     <TextView
         android:id="@+id/txtName"
@@ -37,8 +37,9 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="16dp"
         android:text="Username"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageProfilePhoto"
         app:layout_constraintEnd_toEndOf="@+id/tbChat"
         app:layout_constraintHorizontal_bias="0.0"
@@ -84,11 +85,11 @@
 
         <EditText
             android:id="@+id/edtMessage"
-            android:layout_width="361dp"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@drawable/edittext_background"
-            android:hint="Send a Message"
+            android:hint="Send a Message..."
             android:importantForAutofill="no"
             android:padding="5dp" />
 
@@ -97,9 +98,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="10dp"
+            android:backgroundTint="#2196F3"
             android:contentDescription="Send"
-            android:src="@drawable/ic_send" />
+            android:src="@drawable/ic_send"
+            android:tint="@color/white" />
 
     </LinearLayout>
 

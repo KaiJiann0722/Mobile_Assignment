@@ -2,6 +2,7 @@ package com.example.demo.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -36,12 +37,13 @@ class CommentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCommentBinding.inflate(inflater, container, false)
+        val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
+        val currentUserId = sharedPref.getString("userId", null)
         val post =  postVM.get(postId)
-        if (post == null) {
+        if (post == null || currentUserId == null) {
             nav.navigateUp()
             return null
         }
-
         binding.forumDesc.text = post.postDesc
         binding.postDateTime.text = post.postDate?.let { formatTimestamp(it)}.toString()
         binding.postImg.setImageBlob(post.img)
@@ -56,11 +58,9 @@ class CommentFragment : Fragment() {
                 }
             }
         }
+
         binding.commentRecycler.adapter = adapter
         binding.commentRecycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-
-        val sharedPref = requireActivity().getSharedPreferences("AUTH", Context.MODE_PRIVATE)
-        val currentUserId = sharedPref.getString("userId", null)
 
         commentVM.getResultLD().observe(viewLifecycleOwner) { comments ->
             val filteredComments = comments
@@ -72,11 +72,6 @@ class CommentFragment : Fragment() {
 
         // Set the click listener for the send button
         binding.btnSend.setOnClickListener {
-            if (currentUserId == null) {
-                errorDialog("Please login to comment.")
-                nav.navigate(R.id.loginFragment)
-                return@setOnClickListener
-            }
             val commentText = binding.iptComment.text.toString().trim()
             if (commentText.isNotEmpty()) {
                 val comment = Comment(
@@ -87,7 +82,6 @@ class CommentFragment : Fragment() {
                 )
                 commentVM.add(comment)
                 binding.iptComment.text.clear()
-                binding.commentRecycler.adapter?.notifyItemInserted(0)
                 binding.commentRecycler.postDelayed({
                     binding.commentRecycler.scrollToPosition(0)
                 }, 100)

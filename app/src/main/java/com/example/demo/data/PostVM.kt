@@ -85,9 +85,18 @@ class PostVM: ViewModel() {
 
     }
 
+    fun getAll(userId: String) = getAll().filter { it.postOwnerId == userId }
 
     private val resultLD = MutableLiveData<List<Post>>()
     private var name = ""
+    private var checked = false
+    private var userId = ""
+    fun searchMyPost(currentUserId: String, check: Boolean) {
+        checked = check
+        userId = currentUserId
+        updateResult()
+    }
+
     fun getResultLD() = resultLD
     fun search(name: String) {
         this.name = name
@@ -96,8 +105,13 @@ class PostVM: ViewModel() {
 
     fun updateResult() {
         var list = getAll()
+        list = list.filter {
+            it.postOwnerName.contains(name, true)
+        }
+
+        if (checked) {
+            list = list.filter { it.postOwnerId == userId }
+        }
         resultLD.value = list
     }
-
-
 }

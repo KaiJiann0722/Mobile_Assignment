@@ -51,11 +51,11 @@ class MessageFragment : Fragment() {
         binding.rvMessages.adapter = adapter
         binding.rvMessages.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
-
         messageVM.getResultLD().observe(viewLifecycleOwner) { chats  ->
             val filteredChats = chats
                 .filter { it.chatId == chatId }
             adapter.submitList(filteredChats)
+            binding.rvMessages.scrollToPosition(adapter.itemCount - 1)
         }
 
         binding.btnSendMessage.setOnClickListener {
@@ -70,7 +70,11 @@ class MessageFragment : Fragment() {
                 )
                 messageVM.add(message)
                 // Clear the EditText
+                message.date?.let { it1 -> chatVM.updateChat(chatId, messageText, it1) }
                 binding.edtMessage.text.clear()
+                binding.rvMessages.postDelayed({
+                    binding.rvMessages.scrollToPosition(adapter.itemCount - 1)
+                }, 100)
             }
         }
 

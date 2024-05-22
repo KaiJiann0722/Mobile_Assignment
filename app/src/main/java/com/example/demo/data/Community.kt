@@ -14,9 +14,9 @@ data class Post(
     val id: String = "",
     val postDesc: String? = null,
     val img: Blob = Blob.fromBytes(ByteArray(0)), // Store Uri as String
-    val video: String? = null, // Store Uri as String
     val postDate: Timestamp? = null,
-    val postOwnerId: String = ""
+    val postOwnerId: String = "",
+    val postOwnerName: String = ""
 )
 
 data class Comment(
