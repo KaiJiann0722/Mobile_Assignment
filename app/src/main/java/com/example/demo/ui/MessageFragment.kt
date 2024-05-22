@@ -49,14 +49,18 @@ class MessageFragment : Fragment() {
         }
 
         val adapter = MessageAdapter(requireContext())
+
         binding.rvMessages.adapter = adapter
         binding.rvMessages.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         messageVM.getResultLD().observe(viewLifecycleOwner) { chats  ->
             val filteredChats = chats
                 .filter { it.chatId == chatId }
+                .sortedBy { it.date }
             adapter.submitList(filteredChats)
-            binding.rvMessages.scrollToPosition(adapter.itemCount - 1)
+            binding.rvMessages.postDelayed({
+                binding.rvMessages.scrollToPosition(adapter.itemCount - 1)
+            }, 100)
         }
 
         binding.btnSendMessage.setOnClickListener {
